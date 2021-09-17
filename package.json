@@ -1,0 +1,14 @@
+{
+  "name": "todo_list_node",
+  "version": "1.0.0",
+  "description": "Lista de tarefas feitas com Node.js",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "João Carlos Deon <joaocarlosdeon@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
