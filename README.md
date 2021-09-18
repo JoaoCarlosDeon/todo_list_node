@@ -3,14 +3,14 @@
 ### INSTALL EXPRESS
 - `npm i express --save`
 
-### INSTAL DOT ENV
+### INSTALL DOT ENV
 - `npm i dotenv --save`
 
-### 
-- ``
+### INSTALL MONGOOSE
+- `npm i mongoose --save`
 
-### 
-- ``
+### INSTAL EJS
+- `npm instal ejs --save`
 
 ### 
 - ``
