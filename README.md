@@ -10,10 +10,10 @@
 - `npm i mongoose --save`
 
 ### INSTAL EJS
-- `npm instal ejs --save`
+- `npm i ejs --save`
 
-### 
-- ``
+### INSTALL METHOD-OVERRRIDE
+- `npm i method-override --save`
 
 ### 
 - ``
