@@ -4,53 +4,58 @@ const Checklist = require('../models/checkList')
 
 router.get('/', async (req, res)=> {
     try {
-        const checklists = await Checklist.find()
-        res.status(200).json({
-            error: false,
-            message: "Tasks listed successfully!",
-            checklists
+        const checklists = await Checklist.find()       
+        res.status(200).render('pages/checklists/index', {
+            checklists: checklists
         })
     }
-    catch (err) {
-        res.status(500).json(error)
+    catch (error) {
+        // res.status(500).json(error)
+        res.status(404).render('pages/error', {error: "Erros ao exibir as listas de tarefas"})
     }
 }) 
+
+router.get('/new', async (req,res)=> {
+
+    try{
+        const checklist = new Checklist() //recebe um objeto vazio
+        res.status(200).render('pages/checklists/new', {
+            checklist: checklist
+        })
+    }
+    catch(error) {
+        res.status(404).render('pages/error', {error: "Erro ao carregar o formulário"})
+    }
+})
+
+router.post('/', async (req, res)=> {
+    const { name } = req.body.checklist //recurso que estamos atualizando
+    const checklist = new Checklist({name})
+    
+    //SE DER ERRO VER // Enviando dados de um formulário com POST (Parte 1)
+    try {
+        await checklist.save()
+        // const checklist = await Checklist.create({ name })
+        res.redirect('/checklists')
+    }       
+    catch(error) {
+        res.status(422).render('pages/checklists/new', { checklist: {...checklist, error} })
+    }
+})
 
 router.get('/:id', async (req, res)=> {
     const { id } = req.params
     try {
         const checklist = await Checklist.findById(id)
-        res.status(200).json({
-            error: false,
-            message: "Task listed successfully!",
-            checklist
+        res.status(200).render('pages/checklists/show', {
+            checklist: checklist
         })
-            console.log(id)
     }
-    catch (err) {
-        res.status(422).json(error)
+    catch (error) {
+        // res.status(422).json(error)
+        res.status(500).render('pages/error', {error: "Erros ao exibir as listas de tarefas"})
     }
 }) 
-
-router.post('/', async (req, res)=> {
-    const { name } = req.body
-    // console.log(name)
-    
-    try {
-        const checklist = await Checklist.create({ name })
-
-        res.status(200).json({
-            error: false,
-            message: "Tasks created successfully!",
-            name
-        })
-         console.log(name)
-    }
-       
-    catch(error) {
-        res.status(422).json(error)
-    }
-})
 
 router.put('/:id', async (req, res)=> {
     const { id } = req.params

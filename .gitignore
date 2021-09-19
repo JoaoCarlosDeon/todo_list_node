@@ -62,3 +62,6 @@ typings/
 
 # typescript compiled code
 dist/
+
+# link das páginas com BULMA
+# https://gitlab.com/escoladejavascript.com/todo-list-html

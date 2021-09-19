@@ -1,13 +1,22 @@
 require('dotenv').config()
 const express = require('express')
+const path = require('path')
 const checkListsRouter = require('./routes/checkLists')
+const rootRouter = require('./routes/index')
 const dataBase = require('../config/database')
+
 const server = express()
 
 
 server.use(express.json())
-server.use(express.urlencoded({ extended: false }))
+server.use(express.urlencoded({ extended: true }))
+server.use(express.static('public'))
 
+server.set('views', path.join('./src/views'))
+server.set('view engine', 'ejs' )
+
+
+server.use('/', rootRouter)
 server.use('/checklists', checkListsRouter)
 
 //Page STATUS ERROR 404
