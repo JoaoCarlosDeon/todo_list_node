@@ -28,6 +28,18 @@ router.get('/new', async (req,res)=> {
     }
 })
 
+router.get('/:id/edit', async (req, res)=> {
+    const { id } = req.params
+    try {
+        const checklist = await Checklist.findById(id)
+        res.status(200).render('pages/checklists/edit', {
+            checklist: checklist
+        })
+    }catch(err) {
+        res.status(404).render('pages/error', {error: "Erro ao exibir a edição de lista de tarefas"})
+    }
+})
+
 router.post('/', async (req, res)=> {
     const { name } = req.body.checklist //recurso que estamos atualizando
     const checklist = new Checklist({name})
@@ -59,19 +71,19 @@ router.get('/:id', async (req, res)=> {
 
 router.put('/:id', async (req, res)=> {
     const { id } = req.params
-    const { name } = req.body
+    const { name } = req.body.checklist
+    const checklist = await Checklist.findById(id)
+
 
     try {
-        const checklist = await Checklist.findByIdAndUpdate(id, { name }, {new: true})//esse {name} é o parametro pra ser atualizado
+        await checklist.updateOne({ name })//esse {name} é o parametro pra ser atualizado
         //no Update sempre usar o {new: true} // é pra atualizar no banco de dados 
-
-        res.status(200).json({
-            error: false,
-            message: "Tasks updated successfully!",
-            name
-        })
+        res.redirect('/checklists')
     }catch(error) {
-        res.status(422).json(error)
+        let errors = error.errors
+        res.status(422).render('pages/checklist/edit', {
+            checklist: {...checklist, errors }
+        })
     }
 })
 
